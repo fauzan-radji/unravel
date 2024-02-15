@@ -1,0 +1,23 @@
+<?php
+
+include 'Core/helper.php';
+
+use function Core\env;
+
+$command = $argv[1];
+
+switch ($command) {
+  case 'serve':
+    exec('php -S localhost:8000', $output);
+    echo implode('\n', $output);
+    break;
+
+  case 'migrate':
+    $username = env('DB_USER');
+    $password = env('DB_PASS');
+    $db = env('DB_NAME');
+    $dbFile = $argv[2];
+    exec("mysql -u $username -p$password $db < $dbFile", $output);
+    echo implode('\n', $output);
+    break;
+}
